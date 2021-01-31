@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">FilterMovies</string>
+    <string name="status_image">status</string>
+    <string name="movie_backdrop_image">backdrop</string>
+    <string name="movie_thumbnail_image">thumb</string>
+    <string name="release_date">releasedate</string>
+    <string name="rating">rating</string>
+    <string name="synopsis">synopsis</string>
+    <string name="trailers">trailers</string>
+    <string name="main_movie_image">image</string>
+    <string name="play_image">play image</string>
+    <string name="trailer_image">trailer image</string>
 </resources>
