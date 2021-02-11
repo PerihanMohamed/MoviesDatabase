@@ -9,9 +9,9 @@ import javax.inject.Inject
 class MovieRepo @Inject constructor(private val apiService: ApiService) {
 
 
-    fun getPopular (filter :SortBy) {
+    fun getPopular (filter :SortBy) :Deferred<MoviesResult> {
 
-        apiService.getPopular(API_KEY , "en-US",filter.value ,false ,false )
+      return  apiService.getPopular(API_KEY , "en-US",filter.value ,false ,false )
 
     }
 

@@ -3,6 +3,7 @@ package com.example.filtermovies.di
 import com.example.filtermovies.API_KEY
 import com.example.filtermovies.BASE_URL
 import com.example.filtermovies.data.remote.ApiService
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,6 +53,7 @@ object NetworkModule {
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory()) // Needed for Coroutines
             .build()
             .create(ApiService::class.java)
     }
