@@ -92,6 +92,7 @@ class HomeFragment : Fragment(R.layout.home_fragment),HomeAdapter.onItemClickLis
     override fun onItemClick(movie: Movie) {
         val action = HomeFragmentDirections.actionHomeFragmentToDetailFragmnent2(movie)
         findNavController().navigate(action)
+//        viewModel.navigateToSelectedMovie(movie)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

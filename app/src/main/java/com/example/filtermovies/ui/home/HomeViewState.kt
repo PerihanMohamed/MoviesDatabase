@@ -4,7 +4,7 @@ import com.example.filtermovies.model.Movie
 
 sealed class HomeViewState {
 
-    data class Presenting( val results: List<Movie>) : HomeViewState()
+    data class Presenting(val results: List<Movie>) : HomeViewState()
 
     object Error : HomeViewState()
 

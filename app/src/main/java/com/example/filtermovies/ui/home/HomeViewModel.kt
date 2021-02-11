@@ -7,10 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.filtermovies.data.remote.MovieRepo
+import com.example.filtermovies.model.Movie
+import com.example.filtermovies.model.TrailersResult
 import com.example.filtermovies.ui.home.HomeViewState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -20,13 +19,14 @@ class HomeViewModel @ViewModelInject constructor(val repo: MovieRepo) : ViewMode
     val viewState: LiveData<HomeViewState>
         get() = _viewState
 
+    private  val _navigatetoselectedmovie = MutableLiveData<Movie>()
+     val navigatetoselectedmovie : LiveData<Movie>
+       get() = _navigatetoselectedmovie
+
+
     init {
         makeApiCall(SortBy.Popular)
     }
-//
-//    private var job = Job()
-//
-//    private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
 
     fun makeApiCall(filter: SortBy) {
@@ -43,16 +43,19 @@ class HomeViewModel @ViewModelInject constructor(val repo: MovieRepo) : ViewMode
         }
     }
 
-
-//    override fun onCleared() {
-//        super.onCleared()
-//        job.cancel()
-//    }
-
-
-    fun FilterMovie(filter: SortBy) {
-        makeApiCall(filter)
+    fun navigateToSelectedMovie (movie: Movie){
+        _navigatetoselectedmovie.value = movie
     }
+
+
+
+
+
+        fun FilterMovie(filter: SortBy) {
+            makeApiCall(filter)
+        }
+
+
 }
 
 

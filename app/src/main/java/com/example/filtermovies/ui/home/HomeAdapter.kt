@@ -12,7 +12,9 @@ import com.example.filtermovies.databinding.HomeFragmentBinding
 import com.example.filtermovies.databinding.MovieItemBinding
 import com.example.filtermovies.loadImage
 import com.example.filtermovies.model.Movie
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.movie_item.view.*
+
 
 class HomeAdapter(val listener :onItemClickListenner ): ListAdapter< Movie, HomeAdapter.HomeViewHolder>(DiffCallback) {
 
