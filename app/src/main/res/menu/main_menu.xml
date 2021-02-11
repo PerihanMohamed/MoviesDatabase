@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/popular"
+        android:title="Popular Movies"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/top_RATED"
+        android:title="Top Rated"
+        app:showAsAction="never" />
+
+
+    <item
+        android:id="@+id/UpComing"
+        android:title="Up Coming"
+        app:showAsAction="never" />
+
+</menu>

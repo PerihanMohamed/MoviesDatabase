@@ -2,9 +2,7 @@ package com.example.filtermovies.ui.home
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +14,7 @@ import com.example.filtermovies.R
 import com.example.filtermovies.databinding.HomeFragmentBinding
 import com.example.filtermovies.model.Movie
 import com.example.filtermovies.ui.HomeViewModel
+import com.example.filtermovies.ui.SortBy
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.home_fragment.*
 import kotlinx.coroutines.launch
@@ -25,66 +24,64 @@ class HomeFragment : Fragment(R.layout.home_fragment),HomeAdapter.onItemClickLis
 
     private val viewModel by viewModels<HomeViewModel>()
 
-  private lateinit var  binding : HomeFragmentBinding
-
-
+    private lateinit var binding: HomeFragmentBinding
 
 
     val pAdapter = HomeAdapter(this)
 
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-            binding = HomeFragmentBinding.inflate(inflater)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = HomeFragmentBinding.inflate(inflater)
         return binding.root
     }
 
 
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         setUpRecyclerView()
         setUpObserver()
+        setHasOptionsMenu(true)
     }
 
     private fun setUpObserver() {
-         viewModel.viewState.observe(viewLifecycleOwner , Observer {
-             when (it) {
-                 is HomeViewState.Loading -> {
-                     Log.d("TAG", "LOADING")
-                     status_image.visibility = View.VISIBLE
-                     status_image.setImageResource(R.drawable.loading_animation)
-                 }
-                 is HomeViewState.Error -> {
-                     Log.d("TAG", "errir")
-                     status_image.visibility = View.VISIBLE
-                     status_image.setImageResource(R.drawable.loading_animation)
+        viewModel.viewState.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is HomeViewState.Loading -> {
+                    Log.d("TAG", "LOADING")
+                    status_image.visibility = View.VISIBLE
+                    status_image.setImageResource(R.drawable.loading_animation)
+                }
+                is HomeViewState.Error -> {
+                    Log.d("TAG", "errir")
+                    status_image.visibility = View.VISIBLE
+                    status_image.setImageResource(R.drawable.loading_animation)
 
-                 }
-                 is HomeViewState.Presenting ->{
-                     Log.d("TAG", "presenting")
-                     status_image.visibility = View.VISIBLE
-                     showList(it.results)
-                 }
+                }
+                is HomeViewState.Presenting -> {
+                    Log.d("TAG", "presenting")
+                    status_image.visibility = View.VISIBLE
+                    showList(it.results)
+                }
 
-             }
+            }
 
-         })
+        })
     }
 
-    private fun showList(movies : List<Movie>) {
-       pAdapter.submitList(movies)
+    private fun showList(movies: List<Movie>) {
+        pAdapter.submitList(movies)
     }
 
 
     private fun setUpRecyclerView() {
         Log.d("TAG", "setupRecyclerView")
-        val manager = GridLayoutManager(activity, 3 , GridLayoutManager.VERTICAL, false)
+        val manager = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
         binding.movieRecyclerView.setHasFixedSize(true)
-         binding.movieRecyclerView.layoutManager = manager
-         binding.movieRecyclerView.adapter = pAdapter
+        binding.movieRecyclerView.layoutManager = manager
+        binding.movieRecyclerView.adapter = pAdapter
 
     }
 
@@ -97,7 +94,26 @@ class HomeFragment : Fragment(R.layout.home_fragment),HomeAdapter.onItemClickLis
         findNavController().navigate(action)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.main_menu, menu)
 
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.top_RATED -> {
+                viewModel.FilterMovie(SortBy.TopRated)
+            }
+            R.id.UpComing -> {
+                viewModel.FilterMovie(SortBy.UpComing)
+            } else -> viewModel.FilterMovie(SortBy.Popular)
+
+        }
+        return true
+    }
 
 }
+

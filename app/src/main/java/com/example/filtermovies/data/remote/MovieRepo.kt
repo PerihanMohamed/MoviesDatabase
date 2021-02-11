@@ -10,9 +10,7 @@ class MovieRepo @Inject constructor(private val apiService: ApiService) {
 
 
     fun getPopular (filter :SortBy) :Deferred<MoviesResult> {
-
       return  apiService.getPopular(API_KEY , "en-US",filter.value ,false ,false )
-
     }
 
     fun getMovieDetail (id :Int){

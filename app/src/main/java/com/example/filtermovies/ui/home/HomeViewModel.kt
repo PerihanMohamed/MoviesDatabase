@@ -58,5 +58,7 @@ class HomeViewModel @ViewModelInject constructor(val repo: MovieRepo) : ViewMode
 
 enum class SortBy(val value: String) {
     Popular("popularity.desc"),
-    TopRated("vote_count.desc")
+    TopRated("vote_count.desc"),
+    UpComing("release_date.desc")
+
 }
