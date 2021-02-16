@@ -50,4 +50,5 @@ ext {
     pagingVersion = '3.0.0-alpha05'
     retrofitVersion = '2.9.0'
     testExtJunitVersion = '1.1.1'
+    version_picasso = "2.71828"
 }

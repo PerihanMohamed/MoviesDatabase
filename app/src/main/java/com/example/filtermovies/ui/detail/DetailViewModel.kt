@@ -1,16 +1,15 @@
 package com.example.filtermovies.ui.detail
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.example.filtermovies.data.remote.ApiService
 import com.example.filtermovies.data.remote.MovieRepo
-import com.example.filtermovies.model.Movie
+import com.example.filtermovies.model.Resource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class DetailViewModel @ViewModelInject constructor(val repo : MovieRepo): ViewModel() {
+class DetailViewModel @ViewModelInject constructor(val apiService: ApiService): ViewModel() {
 
     private val _viewState = MutableLiveData<DetailViewSate>()
     val viewSate : LiveData<DetailViewSate>
@@ -18,26 +17,15 @@ class DetailViewModel @ViewModelInject constructor(val repo : MovieRepo): ViewMo
 
 
 
-//    private val _selectedMovie = MutableLiveData<Movie>()
-//    val selecMovie : LiveData<Movie>
-//        get() = _selectedMovie
 
 
-    fun getMovieDetail (id :Int) {
-        viewModelScope.launch {
-            try {
-                _viewState.value = DetailViewSate.Loading
-                var resultDeffered = repo.getMovieDetail(id).await()
-                _viewState.value = DetailViewSate.Presenting(resultDeffered.results)
-            }catch (e:Exception){
-                _viewState.value = DetailViewSate.Error
-            }
-
-
-
-
+    fun loadMovie(id: Int)= liveData(Dispatchers.IO) {
+        emit(Resource.loading(data = null))
+        try {
+            emit(Resource.success(data=apiService.MovieDetail(id)))
+        }catch (exception: Exception){
+            emit(Resource.error(data=null,message = exception.message?:"Error occured"))
         }
-
     }
 
 
